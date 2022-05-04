@@ -1,16 +1,11 @@
 // http/nodegen/middleware/applicationMiddleware.ts
 import {
   corsMiddleware,
-  handleDomain404,
-  handleExpress404,
-  handleHttpException,
   headersCaching,
   inferResponseType,
 } from '@/http/nodegen/middleware';
 import express from 'express';
-import expressFormData from 'express-form-data';
 import morgan from 'morgan';
-import { tmpdir } from 'os';
 import requestIp from 'request-ip';
 import packageJson from '../../../../package.json';
 
@@ -60,12 +55,3 @@ export const requestMiddleware = (app: express.Application): void => {
   app.use(inferResponseType());
 };
 
-/**
- * Injects routes into the passed express app
- * @param app
- */
-export const responseMiddleware = (app: express.Application): void => {
-  app.use(handleExpress404());
-  app.use(handleDomain404());
-  app.use(handleHttpException());
-};

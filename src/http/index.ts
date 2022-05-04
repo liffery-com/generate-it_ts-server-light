@@ -1,8 +1,8 @@
-import express, { Express } from 'express';
+import express from 'express';
 import http from 'http';
 import { AddressInfo } from 'net';
 import { handleDomain404, handleExpress404, handleHttpException, requestMiddleware } from '@/http/nodegen/middleware';
-import routesImporter, { RoutesImporter } from '@/http/nodegen/routesImporter';
+import routesImporter from '@/http/nodegen/routesImporter';
 import packageJson from '../../package.json';
 
 export interface Http {
@@ -13,6 +13,8 @@ export interface Http {
 export interface HttpOptions {
   // An array of valid express ApplicationRequestHandlers (middlewares) injected BEFORE loading routes
   requestMiddleware?: any | [string, any][];
+
+  express404?: () => any;
 
   // an array of valid express ApplicationRequestHandlers (middlewares) injected AFTER loading routes
   errorMiddleware?: any | [string, any][];
@@ -50,8 +52,10 @@ export default async (port: number, options: HttpOptions = {}): Promise<Http> =>
   routesImporter(app, options?.routesImporter);
 
   // Error/ response middlewares
-  app.use(handleExpress404());
+  app.use(options.express404 ? options.express404() : handleExpress404());
+
   app.use(handleDomain404());
+
   if (options.errorMiddleware) {
     useMiddlewares(options.errorMiddleware);
   }
