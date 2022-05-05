@@ -9,7 +9,7 @@ import Router from 'express-promise-router'
   {% if pathMethodsHaveAttr(operations, 'x-worker') %}import WorkerService from '../request-worker/WorkerService'{% endif %}
 
 import {{ucFirst(operation_name)}}Domain from '../../../domains/{{ucFirst(operation_name)}}Domain'
-
+import {{_.camelCase(operation_name)}}TransformOutputs from '../transformOutputs/{{operation_name}}TransformOutput'
 import GenerateItExpressResponse from '@/http/nodegen/interfaces/GenerateItExpressResponse';
 
 export default function() {
