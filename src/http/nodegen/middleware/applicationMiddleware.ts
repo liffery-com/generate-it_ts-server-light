@@ -1,7 +1,6 @@
 // http/nodegen/middleware/applicationMiddleware.ts
 import {
   corsMiddleware,
-  headersCaching,
   inferResponseType,
 } from '@/http/nodegen/middleware';
 import express from 'express';
@@ -11,7 +10,6 @@ import packageJson from '../../../../package.json';
 
 export const responseHeaders = (app: express.Application): void => {
   app.use(corsMiddleware());
-  app.use(headersCaching());
 };
 
 export const requestParser = (app: express.Application): void => {
